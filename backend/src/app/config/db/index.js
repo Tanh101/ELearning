@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 require('dotenv').config();
 const mongoString = process.env.DATABASE_URL;
+mongoose.set("strictQuery", false);
 
 async function connect() {
     try {

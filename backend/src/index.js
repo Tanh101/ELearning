@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const authRouter = require('./routes/auth');
 
 app.get('/', (req, res) => res.send('Hello world'));
 
@@ -10,5 +11,7 @@ const route = require("./routes/index");
 const db = require("./app/config/db/index");
 db.connect();
 
+app.use(express.json());
 
-app.listen(PORT, () => console.log(`Server stated on port ${PORT}`));
+app.use('/api/auth', authRouter);
+app.listen(5000, () => console.log(`Server stated on port ${5000}`));
