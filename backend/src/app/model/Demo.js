@@ -10,7 +10,7 @@ const DemoSchema = new Schema({
         type: String
     },
     status: {
-        type: String
+        // type: String
     }
 })
 module.exports = mongoose.model('demo', DemoSchema);
