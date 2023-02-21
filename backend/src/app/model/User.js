@@ -11,9 +11,13 @@ const UserSchema = new Schema({
         type: String,
         require: true
     },
-    createdAt: {
-        type: Date,
-        default: Date.now
+    role : {
+        type: String,
+        default: "guest"
+    },
+    deletedAt: {
+        type: Date
     }
 }, {timestamps: true})
+
 module.exports = mongoose.model('users', UserSchema);
