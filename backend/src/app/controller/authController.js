@@ -19,6 +19,7 @@ const authController = {
             const newUser = await new User({
                 username: req.body.username,
                 password: hashed,
+                role : req.body.role,
             });
 
             //Svae to mongoDB
