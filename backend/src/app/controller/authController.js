@@ -8,7 +8,7 @@ const cookiePaser = require('cookie-parser');
 
 
 require('dotenv').config();
-let refreshTokens= [];
+let refreshTokens = [];
 
 const authController = {
     //REGISTER
@@ -62,7 +62,7 @@ const authController = {
         try {
             const user = await User.findOne({ username: req.body.username });
             if (!user) {
-                res.status(401).json({
+                return res.status(401).json({
                     success: false, message: 'Wrong username'
                 });
             }
@@ -85,10 +85,10 @@ const authController = {
                 });
 
                 const { password, ...others } = user._doc;
-                res.status(200).json({ ...others, accessToken });
+                return res.status(200).json({ ...others, accessToken });
             }
         } catch (error) {
-            res.status(500).json(error);
+            return res.status(500).json(error);
         }
     },
 
@@ -97,23 +97,23 @@ const authController = {
         // const refreshToken = req.cookies.refreshToken;
         const refreshToken = req.cookies.refreshToken;
 
-        if(!refreshToken)
+        if (!refreshToken)
             return res.status(401).json("You are not authenticated");
-        if(!refreshTokens.includes(refreshToken)){
+        if (!refreshTokens.includes(refreshToken)) {
             return res.status(403).json("Refresh token is not valid");
         }
-            
+
         jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
-            if(err){
+            if (err) {
                 console.log(err);
 
             }
             refreshTokens = refreshTokens.filter((token) => token !== refreshToken);
-            
+
             //Create new accessToken, refreshToken
             const newAccessToken = authController.generateAccessToken(user);
             const newRefreshToken = authController.generateRefreshToken(user);
-            
+
             refreshTokens.push(newRefreshToken);
             //save to cookie
             res.cookie('refreshToken', newRefreshToken, {
@@ -122,11 +122,11 @@ const authController = {
                 path: "/",
                 samesite: "strict",
             });
-            res.status(200).json({accessToken : newAccessToken});
+            res.status(200).json({ accessToken: newAccessToken });
         })
     },
 
-    logoutUser : async (req, res) => {
+    logoutUser: async (req, res) => {
         res.clearCookie("refreshToken");
         refreshTokens = refreshTokens.filter(token => token !== req.cookies.refreshToken);
         return res.status(200).json("logout successful!");
