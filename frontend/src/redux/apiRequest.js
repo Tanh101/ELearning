@@ -23,4 +23,3 @@ export const registerUser = async (user, dispatch, navigate) => {
         dispatch(registerFailed());
     }
 }
-

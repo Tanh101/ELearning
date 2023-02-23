@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+
 import "./navbar.css";
 const NavBar = () => {
-  const [user,setUSer] = useState(null);
+  const user = useSelector((state) => state.user.username);
   return (
     <nav className="navbar-container">
       <Link to="/" className="navbar-home"> Home </Link>
