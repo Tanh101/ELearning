@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import "./home.css";
-import { getAllUser } from "../../redux/apiRequest";
+import { deleteUser, getAllUser } from "../../redux/apiRequest";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -10,6 +10,10 @@ const HomePage = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const handleDelete = (id) => {
+    deleteUser(id, user?.accessToken, dispatch);
+  };
 
   useEffect(() => {
     if (!user) {
@@ -29,7 +33,7 @@ const HomePage = () => {
           return (
             <div className="user-container">
               <div className="home-user">{user.username}</div>
-              <div className="delete-user"> Delete </div>
+              <div className="delete-user" onClick={() => handleDelete(user._id)}> Delete </div>
             </div>
           );
         })}
