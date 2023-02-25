@@ -47,8 +47,10 @@ export const deleteUser = async (id, accessToken, dispatch) => {
                 token: "Bearer " + accessToken
             }
         });
-        deleteUserSuccess(res.data);
+        dispatch(deleteUserSuccess(res.data));
     }catch(error) {
-        dispatch(deleteUserFailed(error.response.data));
+        if (error.response !== undefined && error.response.data !== undefined) {
+            dispatch(deleteUserFailed(error.response.data));
+          }
     }
 }
